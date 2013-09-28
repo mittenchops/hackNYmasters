@@ -22,16 +22,18 @@ normer <- function(x){
     sapply(x, function(y){y/m})
     }
 
+# NORMALIZE
 cdata$length <- sapply(cdata$length,mmss2sec)
 cdata$length <- normer(cdata$length)
 cdata$numofcats <- normer(cdata$numofcats)
 cdata$views <- normer(cdata$views)
 
+# Simplify
 cdata <- cdata[,-c(2,3,4,6)]
 leftout <- cdata[last,]
 
 # logistic regression
-lfit <- glm(Y~., data=cdata[-last,], family=binomial(link="logit"))
+lfit <- glm(Y~., data=cdata[-last,], family=binomial(link="logit")) # <- bad model here!
 predict(lfit,leftout, type='response')  # notice, does not converge---get more data
 # 15 
 #  1 

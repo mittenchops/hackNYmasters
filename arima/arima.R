@@ -6,7 +6,9 @@ library(ggplot2)
 # BIRTHS
 births <- read.csv(file='monthly-new-york-city-births-unk.csv', header=T, col.names=c('month','births'))
 fit <- auto.arima(as.vector(births[,2]))
+png(file='births.png',width=1000, height=500)
 plot(forecast(fit,10), main='Monthly births in New York City starting in 1946')  #standard plot
+dev.off()
 #Series: as.vector(births[, 2]) 
 #ARIMA(4,1,3)                    
 #
@@ -65,3 +67,11 @@ f1 <- ggplot(plotdat, aes(x=date) ) +
     geom_line(aes(y = UpperBound), colour="red", size=0.25, linetype="longdash") +
     opts(title="FAA's Count of Unruly Passengers")
 print(f1)
+ggsave('unruly-fcast.png', width=6.5, height=2.75, plot=f1, dpi=90)
+
+f2 <- ggplot(plotdat, aes(x=date) ) +
+    geom_line(aes(y = Series), size=1.1, colour="black") +
+    theme_bw() +
+    opts(title="FAA's Count of Unruly Passengers")
+print(f2)
+ggsave('unruly.png', width=6.5, height=2.75, plot=f2, dpi=90)
